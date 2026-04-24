@@ -40,8 +40,8 @@ function Remove-Empty {
     }
 	
     if ($Path -ne $RootPath -and -not (Get-ChildItem -Force -LiteralPath $Path -ErrorAction SilentlyContinue)) {
+		$RelativePath = [System.IO.Path]::GetRelativePath((Resolve-Path $RootPath), (Resolve-Path $Path))
 		Remove-Item -Force -LiteralPath $Path
-		Write-Verbose "Removed: $Path"
-    
+		Write-Verbose ("Removed: {0}{1}" -f $RootPath, $RelativePath) 
 	}
 }
