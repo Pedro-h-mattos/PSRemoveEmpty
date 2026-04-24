@@ -32,17 +32,16 @@ function Remove-Empty {
 	
 	if (-not $RootPath) {
 		$RootPath = $Path
+		Write-Verbose "Processing subdirectories in root: $RootPath"
 	}
-	
-	Write-Verbose "Processing directory $RootPath"
 	
     foreach ($Dir in Get-ChildItem -Force -LiteralPath $Path -Directory -ErrorAction SilentlyContinue) {
         Remove-Empty -Path $Dir.FullName -RootPath $RootPath
     }
 	
     if ($Path -ne $RootPath -and -not (Get-ChildItem -Force -LiteralPath $Path -ErrorAction SilentlyContinue)) {
-		Write-Verbose "Removed: $Path"
 		Remove-Item -Force -LiteralPath $Path
+		Write-Verbose "Removed: $Path"
     
 	}
 }
